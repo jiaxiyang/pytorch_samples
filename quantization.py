@@ -1,6 +1,7 @@
 import torch
 import torchvision.models as models
 import torch.quantization as quantization
+import torch.onnx as onnx
 
 # Load the pretrained ResNet model
 model = models.resnet50(pretrained=True)
@@ -19,5 +20,7 @@ quantized_model = quantization.quantize_dynamic(model, qconfig_spec=quant_config
 
 # Run the quantized model
 output = quantized_model(input_data)
+
+onnx.export(model, input_data, "resnet18_set11_quant.onnx", opset_version=11)
 
 print("Quantized model output:", output)
